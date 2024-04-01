@@ -30,8 +30,4 @@ public class PatientModel implements CRUD {
         return null;
     }
 
-    @Override
-    public List<Object> findByName(String name) {
-        return null;
-    }
 }

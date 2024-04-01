@@ -1,18 +1,15 @@
 package entity;
 
-import java.sql.Date;
-import java.sql.Time;
-
 public class Appointment {
 
     private int idAppointment;
-    private Date dateAppointment;
-    private Time timeAppointment;
+    private String dateAppointment;
+    private String timeAppointment;
     private String reason;
     private int idPatient;
     private int idDoctor;
     public Appointment(){}
-    public Appointment(int idAppointment, Date dateAppointment, Time timeAppointment, String reason, int idPatient, int idDoctor) {
+    public Appointment(int idAppointment, String dateAppointment, String timeAppointment, String reason, int idPatient, int idDoctor) {
         this.idAppointment = idAppointment;
         this.dateAppointment = dateAppointment;
         this.timeAppointment = timeAppointment;
@@ -29,19 +26,19 @@ public class Appointment {
         this.idAppointment = idAppointment;
     }
 
-    public Date getDateAppointment() {
+    public String getDateAppointment() {
         return dateAppointment;
     }
 
-    public void setDateAppointment(Date dateAppointment) {
+    public void setDateAppointment(String dateAppointment) {
         this.dateAppointment = dateAppointment;
     }
 
-    public Time getTimeAppointment() {
+    public String getTimeAppointment() {
         return timeAppointment;
     }
 
-    public void setTimeAppointment(Time timeAppointment) {
+    public void setTimeAppointment(String timeAppointment) {
         this.timeAppointment = timeAppointment;
     }
 

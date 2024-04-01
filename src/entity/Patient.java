@@ -7,12 +7,12 @@ public class Patient {
     private int idPatient;
     private String name;
     private String lastName;
-    private Date birthDate;
+    private String birthDate;
     private String identity;
 
     public Patient(){}
 
-    public Patient(int idPatient, String name, String lastName, Date birthDate, String identity) {
+    public Patient(int idPatient, String name, String lastName, String birthDate, String identity) {
         this.idPatient = idPatient;
         this.name = name;
         this.lastName = lastName;
@@ -44,11 +44,11 @@ public class Patient {
         this.lastName = lastName;
     }
 
-    public Date getBirthDate() {
+    public String getBirthDate() {
         return birthDate;
     }
 
-    public void setBirthDate(Date birthDate) {
+    public void setBirthDate(String birthDate) {
         this.birthDate = birthDate;
     }
 
