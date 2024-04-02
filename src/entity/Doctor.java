@@ -3,15 +3,15 @@ package entity;
 public class Doctor {
     private int idDoctor;
     private String name;
-    private String last_name;
+    private String lastName;
     private int idSpecialty;
 
     public Doctor(){}
 
-    public Doctor(int idDoctor, String name, String last_name, int idSpecialty) {
+    public Doctor(int idDoctor, String name, String lastName, int idSpecialty) {
         this.idDoctor = idDoctor;
         this.name = name;
-        this.last_name = last_name;
+        this.lastName = lastName;
         this.idSpecialty = idSpecialty;
     }
 
@@ -31,12 +31,12 @@ public class Doctor {
         this.name = name;
     }
 
-    public String getLast_name() {
-        return last_name;
+    public String getLastName() {
+        return lastName;
     }
 
-    public void setLast_name(String last_name) {
-        this.last_name = last_name;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public int getIdSpecialty() {

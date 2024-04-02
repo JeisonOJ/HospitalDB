@@ -2,6 +2,7 @@ package model;
 
 import database.CRUD;
 import database.ConfigDB;
+import entity.Doctor;
 import entity.Patient;
 
 import java.sql.Connection;
@@ -11,25 +12,24 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PatientModel implements CRUD {
+public class DoctorModel implements CRUD {
     @Override
     public Object insert(Object object) {
-        Patient patient = (Patient) object;
+        Doctor doctor = (Doctor) object;
         Connection connection = ConfigDB.openConnection();
-        String sql = "INSERT INTO patients(name,last_name,birth_date,identity) VALUES (?,?,?,?);";
+        String sql = "INSERT INTO doctors(name,last_name,idSpecialty) VALUES (?,?,?);";
         try {
             PreparedStatement ps = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
-            ps.setString(1, patient.getName());
-            ps.setString(2, patient.getLastName());
-            ps.setString(3, patient.getBirthDate());
-            ps.setString(4, patient.getIdentity());
+            ps.setString(1, doctor.getName());
+            ps.setString(2, doctor.getLastName());
+            ps.setInt(3, doctor.getIdSpecialty());
 
             int rows = ps.executeUpdate();
             if (rows > 0) {
                 ResultSet rs = ps.getGeneratedKeys();
                 if (rs.next()) {
-                    patient.setIdPatient(rs.getInt(1));
-                    System.out.println("Insert: Patient inserted successfully");
+                    doctor.setIdDoctor(rs.getInt(1));
+                    System.out.println("Insert: Doctor inserted successfully");
                 }
             }
         } catch (SQLException e) {
@@ -37,26 +37,25 @@ public class PatientModel implements CRUD {
         } finally {
             ConfigDB.closeConnection();
         }
-        return patient;
+        return doctor;
     }
 
     @Override
     public boolean update(Object object) {
-        Patient patient = (Patient) object;
+        Doctor doctor = (Doctor) object;
         boolean isUpdated = false;
         Connection connection = ConfigDB.openConnection();
-        String sql = "UPDATE patients SET name= ?,last_name = ?, birth_date = ?, identity = ? WHERE id=?;";
+        String sql = "UPDATE doctors SET name = ?,last_name = ?, idSpecialty = ? WHERE id=?;";
 
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
-            ps.setString(1, patient.getName());
-            ps.setString(2, patient.getLastName());
-            ps.setString(3, patient.getBirthDate());
-            ps.setString(4, patient.getIdentity());
-            ps.setInt(5, patient.getIdPatient());
+            ps.setString(1, doctor.getName());
+            ps.setString(2, doctor.getLastName());
+            ps.setInt(3, doctor.getIdSpecialty());
+            ps.setInt(4, doctor.getIdDoctor());
             int rows = ps.executeUpdate();
             if (rows > 0) {
-                System.out.println("Update: patient update successfully");
+                System.out.println("Update: doctor update successfully");
                 isUpdated = true;
             }
 
@@ -72,14 +71,14 @@ public class PatientModel implements CRUD {
     public boolean delete(int id) {
         boolean isDeleted = false;
         Connection connection = ConfigDB.openConnection();
-        String sql = "DELETE FROM patients WHERE id = ?";
+        String sql = "DELETE FROM doctors WHERE id = ?";
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
             ps.setInt(1, id);
 
             int rows = ps.executeUpdate();
             if (rows > 0) {
-                System.out.println("Delete: patient deleted successfully");
+                System.out.println("Delete: doctor deleted successfully");
                 isDeleted = true;
             }
 
@@ -93,15 +92,15 @@ public class PatientModel implements CRUD {
 
     @Override
     public List<Object> findAll() {
-        List<Object> patients = new ArrayList<>();
+        List<Object> doctors = new ArrayList<>();
         Connection connection = ConfigDB.openConnection();
-        String sql = "SELECT * FROM patients";
+        String sql = "SELECT * FROM doctors";
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
-                patients.add(new Patient(rs.getInt("id"), rs.getString("name"),rs.getString("last_name"), rs.getString("birth_date"), rs.getString("identity")));
+                doctors.add(new Patient(rs.getInt("id"), rs.getString("name"),rs.getString("last_name"), rs.getString("birth_date"), rs.getString("identity")));
             }
 
         } catch (SQLException e) {
@@ -109,29 +108,11 @@ public class PatientModel implements CRUD {
         } finally {
             ConfigDB.closeConnection();
         }
-        return patients;
+        return doctors;
     }
 
     @Override
     public Object findById(int id) {
-        Connection connection = ConfigDB.openConnection();
-        Patient patient = null;
-        String sql = "SELECT * FROM patients WHERE id = ?";
-        try {
-            PreparedStatement ps = connection.prepareStatement(sql);
-            ps.setInt(1, id);
-            ResultSet rs = ps.executeQuery();
-
-            while (rs.next()) {
-                patient = new Patient(rs.getInt("id"), rs.getString("name"),rs.getString("last_name"), rs.getString("birth_date"), rs.getString("identity"));
-            }
-
-        } catch (SQLException e) {
-            System.out.println("FindById: error in database\n" + e.getMessage());
-        } finally {
-            ConfigDB.closeConnection();
-        }
-        return patient;
+        return null;
     }
-
 }
