@@ -1,5 +1,6 @@
 import controller.AppointmentController;
 import controller.PatientController;
+import controller.SpecialtyController;
 import database.ConfigDB;
 
 import javax.swing.*;
@@ -26,8 +27,80 @@ public class Main {
 
             switch (optionGeneral) {
                 case "1":
+                    SpecialtyController specialtyController = new SpecialtyController();
+                    String optionSpecialty;
+                    String messageSpecialty = """
+                            ....::::::SPECIALTY MENU::::::....
+                            1. Create a specialty.
+                            2. Show all specialties.
+                            3. Update a specialty.
+                            4. Delete a specialty.
+                            5. Find a specialty.
+                            6. Exit.
+                                            
+                            ENTER THE OPTION TO CONTINUE...
+                            """;
+                    do {
+                        optionSpecialty = JOptionPane.showInputDialog(null, messageSpecialty);
+                        if (optionSpecialty == null) {
+                            break;
+                        }
+                        switch (optionSpecialty){
+                            case "1":
+                                specialtyController.createSpecialty();
+                                break;
+                            case "2":
+                                JOptionPane.showMessageDialog(null,specialtyController.showAllSpecialities());
+                                break;
+                            case "3":
+                                specialtyController.updateSpecialty();
+                                break;
+                            case "4":
+                                specialtyController.deleteSpecialty();
+                                break;
+                            case "5":
+                                specialtyController.findSpecialtyByID();
+                                break;
+                        }
+                    } while (!optionSpecialty.equals("6"));
                     break;
                 case "2":
+                    SpecialtyController doctorController = new SpecialtyController();
+                    String optionDoctor;
+                    String messageDoctor = """
+                            ....::::::SPECIALTY MENU::::::....
+                            1. Create a doctor.
+                            2. Show all doctors.
+                            3. Update a doctor.
+                            4. Delete a doctor.
+                            5. Find a doctor.
+                            6. Exit.
+                                            
+                            ENTER THE OPTION TO CONTINUE...
+                            """;
+                    do {
+                        optionDoctor = JOptionPane.showInputDialog(null, messageDoctor);
+                        if (optionDoctor == null) {
+                            break;
+                        }
+                        switch (optionDoctor){
+                            case "1":
+                                doctorController.createSpecialty();
+                                break;
+                            case "2":
+                                JOptionPane.showMessageDialog(null,doctorController.showAllSpecialities());
+                                break;
+                            case "3":
+                                doctorController.updateSpecialty();
+                                break;
+                            case "4":
+                                doctorController.deleteSpecialty();
+                                break;
+                            case "5":
+                                doctorController.findSpecialtyByID();
+                                break;
+                        }
+                    } while (!optionDoctor.equals("6"));
                     break;
                 case "3":
                     PatientController patientController = new PatientController();
