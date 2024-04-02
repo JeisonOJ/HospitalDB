@@ -2,33 +2,32 @@ package model;
 
 import database.CRUD;
 import database.ConfigDB;
-import entity.Appointment;
+import entity.Specialty;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AppointmentModel implements CRUD {
-
+public class SpecialtyModel implements CRUD {
     @Override
     public Object insert(Object object) {
-        Appointment appointment = (Appointment) object;
+        Specialty specialty = (Specialty) object;
         Connection connection = ConfigDB.openConnection();
-        String sql = "INSERT INTO appointments(date_appointment,time_appointment,reason,id_patient,id_doctor) VALUES (?,?,?,?,?);";
+        String sql = "INSERT INTO specialties(name,description) VALUES (?,?);";
         try {
             PreparedStatement ps = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
-            ps.setString(1, appointment.getDateAppointment());
-            ps.setString(2, appointment.getTimeAppointment());
-            ps.setString(3, appointment.getReason());
-            ps.setInt(4, appointment.getIdPatient());
-            ps.setInt(5, appointment.getIdDoctor());
+            ps.setString(1, specialty.getName());
+            ps.setString(2, specialty.getDescription());
 
             int rows = ps.executeUpdate();
             if (rows > 0) {
                 ResultSet rs = ps.getGeneratedKeys();
                 if (rs.next()) {
-                    appointment.setIdAppointment(rs.getInt(1));
-                    System.out.println("Insert: Appointment inserted successfully");
+                    specialty.setIdSpecialty(rs.getInt(1));
+                    System.out.println("Insert: specialty inserted successfully");
                 }
             }
         } catch (SQLException e) {
@@ -36,27 +35,24 @@ public class AppointmentModel implements CRUD {
         } finally {
             ConfigDB.closeConnection();
         }
-        return appointment;
+        return specialty;
     }
 
     @Override
     public boolean update(Object object) {
-        Appointment appointment = (Appointment) object;
+        Specialty specialty = (Specialty) object;
         boolean isUpdated = false;
         Connection connection = ConfigDB.openConnection();
-        String sql = "UPDATE appointments SET date_appointment= ?,time_appointment = ?, reason = ?, id_patient = ?, id_doctor= ? WHERE id=?;";
+        String sql = "UPDATE specialties SET name = ?,description = ? WHERE id = ?;";
 
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
-            ps.setString(1, appointment.getDateAppointment());
-            ps.setString(2, appointment.getTimeAppointment());
-            ps.setString(3, appointment.getReason());
-            ps.setInt(4, appointment.getIdPatient());
-            ps.setInt(5, appointment.getIdDoctor());
-            ps.setInt(6, appointment.getIdAppointment());
+            ps.setString(1, specialty.getName());
+            ps.setString(2, specialty.getDescription());
+            ps.setInt(3, specialty.getIdSpecialty());
             int rows = ps.executeUpdate();
             if (rows > 0) {
-                System.out.println("Update: Appointment update successfully");
+                System.out.println("Update: specialty update successfully");
                 isUpdated = true;
             }
 
@@ -72,14 +68,14 @@ public class AppointmentModel implements CRUD {
     public boolean delete(int id) {
         boolean isDeleted = false;
         Connection connection = ConfigDB.openConnection();
-        String sql = "DELETE FROM appointments where id = ?";
+        String sql = "DELETE FROM specialties where id = ?";
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
             ps.setInt(1, id);
 
             int rows = ps.executeUpdate();
             if (rows > 0) {
-                System.out.println("Delete: Appointment Delete successfully");
+                System.out.println("Delete: specialty deleted successfully");
                 isDeleted = true;
             }
 
@@ -93,15 +89,15 @@ public class AppointmentModel implements CRUD {
 
     @Override
     public List<Object> findAll() {
-        List<Object> appointments = new ArrayList<>();
+        List<Object> specialties = new ArrayList<>();
         Connection connection = ConfigDB.openConnection();
-        String sql = "SELECT * FROM appointments";
+        String sql = "SELECT * FROM specialties";
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
-                appointments.add(new Appointment(rs.getInt("id"), rs.getString("date_appointment"), rs.getString("time_appointment"), rs.getString("reason"), rs.getInt("id_patient"), rs.getInt("id_doctor")));
+                specialties.add(new Specialty(rs.getInt("id"), rs.getString("name"),rs.getString("description")));
             }
 
         } catch (SQLException e) {
@@ -109,21 +105,21 @@ public class AppointmentModel implements CRUD {
         } finally {
             ConfigDB.closeConnection();
         }
-        return appointments;
+        return specialties;
     }
 
     @Override
     public Object findById(int id) {
         Connection connection = ConfigDB.openConnection();
-        Appointment appointment = null;
-        String sql = "SELECT * FROM appointments WHERE id = ?";
+        Specialty specialty = null;
+        String sql = "SELECT * FROM specialties WHERE id = ?";
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
-                appointment = new Appointment(rs.getInt("id"), rs.getString("date_appointment"), rs.getString("time_appointment"), rs.getString("reason"), rs.getInt("id_patient"), rs.getInt("id_doctor"));
+                specialty = new Specialty(rs.getInt("id"), rs.getString("name"),rs.getString("description"));
             }
 
         } catch (SQLException e) {
@@ -131,6 +127,6 @@ public class AppointmentModel implements CRUD {
         } finally {
             ConfigDB.closeConnection();
         }
-        return appointment;
+        return specialty;
     }
 }

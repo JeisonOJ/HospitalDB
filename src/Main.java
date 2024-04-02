@@ -1,4 +1,5 @@
 import controller.AppointmentController;
+import controller.PatientController;
 import database.ConfigDB;
 
 import javax.swing.*;
@@ -29,6 +30,42 @@ public class Main {
                 case "2":
                     break;
                 case "3":
+                    PatientController patientController = new PatientController();
+                    String optionPatient;
+                    String messagePatient = """
+                            ....::::::PATIENT MENU::::::....
+                            1. Create a patient.
+                            2. Show all patients.
+                            3. Update a patient.
+                            4. Delete a patient.
+                            5. Find a patient.
+                            6. Exit.
+                                            
+                            ENTER THE OPTION TO CONTINUE...
+                            """;
+                    do {
+                        optionPatient = JOptionPane.showInputDialog(null, messagePatient);
+                        if (optionPatient == null) {
+                            break;
+                        }
+                        switch (optionPatient){
+                            case "1":
+                                patientController.createPatient();
+                                break;
+                            case "2":
+                                JOptionPane.showMessageDialog(null,patientController.showAllPatients());
+                                break;
+                            case "3":
+                                patientController.updatePatient();
+                                break;
+                            case "4":
+                                patientController.deletePatient();
+                                break;
+                            case "5":
+                                patientController.findPatientByID();
+                                break;
+                        }
+                    } while (!optionPatient.equals("6"));
                     break;
                 case "4":
                     AppointmentController appointmentController = new AppointmentController();
@@ -60,8 +97,10 @@ public class Main {
                                 appointmentController.updateAppointment();
                                 break;
                             case "4":
+                                appointmentController.deleteAppointment();
                                 break;
                             case "5":
+                                appointmentController.findAnAppointmentByID();
                                 break;
                         }
                     } while (!optionAppointment.equals("6"));
