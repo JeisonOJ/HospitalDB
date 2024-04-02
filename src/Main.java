@@ -1,7 +1,7 @@
 import controller.AppointmentController;
+import controller.DoctorController;
 import controller.PatientController;
 import controller.SpecialtyController;
-import database.ConfigDB;
 
 import javax.swing.*;
 
@@ -30,7 +30,7 @@ public class Main {
                     SpecialtyController specialtyController = new SpecialtyController();
                     String optionSpecialty;
                     String messageSpecialty = """
-                            ....::::::SPECIALTY MENU::::::....
+                            ....::::::SPECIALTIES MENU::::::....
                             1. Create a specialty.
                             2. Show all specialties.
                             3. Update a specialty.
@@ -65,10 +65,10 @@ public class Main {
                     } while (!optionSpecialty.equals("6"));
                     break;
                 case "2":
-                    SpecialtyController doctorController = new SpecialtyController();
+                    DoctorController doctorController = new DoctorController();
                     String optionDoctor;
                     String messageDoctor = """
-                            ....::::::SPECIALTY MENU::::::....
+                            ....::::::DOCTORS MENU::::::....
                             1. Create a doctor.
                             2. Show all doctors.
                             3. Update a doctor.
@@ -85,19 +85,19 @@ public class Main {
                         }
                         switch (optionDoctor){
                             case "1":
-                                doctorController.createSpecialty();
+                                doctorController.createDoctor();
                                 break;
                             case "2":
-                                JOptionPane.showMessageDialog(null,doctorController.showAllSpecialities());
+                                JOptionPane.showMessageDialog(null,doctorController.showAllDoctors());
                                 break;
                             case "3":
-                                doctorController.updateSpecialty();
+                                doctorController.updateDoctor();
                                 break;
                             case "4":
-                                doctorController.deleteSpecialty();
+                                doctorController.deleteDoctor();
                                 break;
                             case "5":
-                                doctorController.findSpecialtyByID();
+                                doctorController.findDoctorByID();
                                 break;
                         }
                     } while (!optionDoctor.equals("6"));
@@ -106,7 +106,7 @@ public class Main {
                     PatientController patientController = new PatientController();
                     String optionPatient;
                     String messagePatient = """
-                            ....::::::PATIENT MENU::::::....
+                            ....::::::PATIENTS MENU::::::....
                             1. Create a patient.
                             2. Show all patients.
                             3. Update a patient.

@@ -1,5 +1,6 @@
 package controller;
 
+import entity.Doctor;
 import entity.Patient;
 import model.DoctorModel;
 
@@ -16,67 +17,66 @@ public class DoctorController {
 
     public String showAllDoctors() {
         StringBuilder message = new StringBuilder();
-        message.append("......:::::::All Patients:::::::......");
-        List<Object> list = patientModel.findAll();
+        message.append("......:::::::All Doctors:::::::......");
+        List<Object> list = doctorModel.findAll();
         if (!list.isEmpty()) {
             for (Object object : list) {
-                Patient patient = (Patient) object;
-                message.append("\nID: ").append(patient.getIdPatient())
-                        .append("\nName: ").append(patient.getName())
-                        .append("\nLast name: ").append(patient.getLastName())
-                        .append("\nBirthDate: ").append(patient.getBirthDate())
-                        .append("\nIdentity: ").append(patient.getIdentity())
+                Doctor doctor = (Doctor) object;
+                message.append("\nID: ").append(doctor.getIdDoctor())
+                        .append("\nName: ").append(doctor.getName())
+                        .append("\nLast name: ").append(doctor.getLastName())
+                        .append("\nSpecialty ID: ").append(doctor.getIdSpecialty())
                         .append("\n");
             }
             return message.toString();
         }
-        return message.append("\nThere are no patients in this list").toString();
+        return message.append("\nThere are no doctors in this list").toString();
     }
 
     public void createDoctor() {
         StringBuilder message = new StringBuilder();
-        message.append("Patient");
+        message.append("Doctor");
 
-        String name = JOptionPane.showInputDialog(null, "Enter the patient name");
-        String lastName = JOptionPane.showInputDialog(null, "Enter the patient last name");
-        String birthdate = JOptionPane.showInputDialog(null, "Enter the patient birthdate");
-        String identity = JOptionPane.showInputDialog(null, "Enter the patient identity");
-        Patient patient = new Patient();
-        patient.setName(name);
-        patient.setLastName(lastName);
-        patient.setBirthDate(birthdate);
-        patient.setIdentity(identity);
-        patient = (Patient) patientModel.insert(patient);
-        if (patient.getIdPatient() != 0) {
-            message.append("\nName: ").append(patient.getName())
-                    .append("\nLast name: ").append(patient.getLastName())
-                    .append("\nIdentity: ").append(patient.getIdentity());
-            JOptionPane.showMessageDialog(null, message.toString());
+        try{
+            String name = JOptionPane.showInputDialog(null, "Enter the doctor name");
+            String lastName = JOptionPane.showInputDialog(null, "Enter the doctor last name");
+            int specialtyID = Integer.parseInt(JOptionPane.showInputDialog(null, "Enter the doctor specialtyID"));
+            Doctor doctor = new Doctor();
+            doctor.setName(name);
+            doctor.setLastName(lastName);
+            doctor.setIdSpecialty(specialtyID);
+            doctor = (Doctor) doctorModel.insert(doctor);
+            if (doctor.getIdDoctor() != 0) {
+                message.append("\nName: ").append(doctor.getName())
+                        .append("\nLast name: ").append(doctor.getLastName())
+                        .append("\nSpecialty id: ").append(doctor.getIdSpecialty());
+                JOptionPane.showMessageDialog(null, message.toString());
+            }
+        }catch (Exception e){
+            JOptionPane.showMessageDialog(null, "Enter a number");
         }
     }
 
     public void updateDoctor() {
         StringBuilder message = new StringBuilder();
-        message.append(showAllPatients()).append("\nEnter the id to update");
+        message.append(showAllDoctors()).append("\nEnter the id to update");
         try {
             int found = Integer.parseInt(JOptionPane.showInputDialog(null, message.toString()));
-            Patient patient = (Patient) patientModel.findById(found);
-            if (patient != null) {
-                String name = JOptionPane.showInputDialog(null, "Enter the patient name", patient.getName());
-                String lastName = JOptionPane.showInputDialog(null, "Enter the patient hour", patient.getLastName());
-                String birtDate = JOptionPane.showInputDialog(null, "Enter the patient bithdate", patient.getBirthDate());
-                String identity = JOptionPane.showInputDialog(null, "Enter the patient identity", patient.getIdentity());
+            Doctor doctor = (Doctor) doctorModel.findById(found);
+            if (doctor != null) {
+                String name = JOptionPane.showInputDialog(null, "Enter the doctor name", doctor.getName());
+                String lastName = JOptionPane.showInputDialog(null, "Enter the doctor hour", doctor.getLastName());
+                int specialtyID = Integer.parseInt(JOptionPane.showInputDialog(null, "Enter the doctor specialtyID",doctor.getIdSpecialty()));
 
-                patient.setName(name);
-                patient.setLastName(lastName);
-                patient.setBirthDate(birtDate);
-                patient.setIdentity(identity);
+                doctor.setName(name);
+                doctor.setLastName(lastName);
+                doctor.setIdSpecialty(specialtyID);
 
-                if (patientModel.update(patient)) {
-                    JOptionPane.showMessageDialog(null, "Patient updated");
+                if (doctorModel.update(doctor)) {
+                    JOptionPane.showMessageDialog(null, "Doctor updated");
                 }
             } else {
-                JOptionPane.showMessageDialog(null, "Patient doesn't exist");
+                JOptionPane.showMessageDialog(null, "Doctor doesn't exist");
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Enter a number");
@@ -85,36 +85,35 @@ public class DoctorController {
 
     public void deleteDoctor() {
         StringBuilder message = new StringBuilder();
-        message.append(showAllPatients()).append("\nEnter the id to delete");
+        message.append(showAllDoctors()).append("\nEnter the id to delete");
         try {
             int found = Integer.parseInt(JOptionPane.showInputDialog(null, message.toString()));
-            if (patientModel.delete(found)) {
-                JOptionPane.showMessageDialog(null, "Patient deleted");
+            if (doctorModel.delete(found)) {
+                JOptionPane.showMessageDialog(null, "Doctor deleted");
             } else {
-                JOptionPane.showMessageDialog(null, "Error when eliminating the patient");
+                JOptionPane.showMessageDialog(null, "Error when eliminating the doctor");
             }
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "patient doesn't exist");
+            JOptionPane.showMessageDialog(null, "doctor doesn't exist");
         }
     }
 
     public void findDoctorByID() {
         StringBuilder message = new StringBuilder();
-        message.append("The patient details");
+        message.append("The doctor details");
         try {
             int found = Integer.parseInt(JOptionPane.showInputDialog(null, "\nEnter the id to find"));
-            Patient patient = (Patient) patientModel.findById(found);
-            if (patient != null){
-                message.append("\nID: ").append(patient.getIdPatient())
-                        .append("\nName: ").append(patient.getName())
-                        .append("\nLast name: ").append(patient.getLastName())
-                        .append("\nBirthDate: ").append(patient.getBirthDate())
-                        .append("\nIdentity: ").append(patient.getIdentity());
+            Doctor doctor = (Doctor) doctorModel.findById(found);
+            if (doctor != null){
+                message.append("\nID: ").append(doctor.getIdDoctor())
+                        .append("\nName: ").append(doctor.getName())
+                        .append("\nLast name: ").append(doctor.getLastName())
+                        .append("\nSpecialty id: ").append(doctor.getIdSpecialty());
 
                 JOptionPane.showMessageDialog(null,message.toString());
             }
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Patient doesn't exist");
+            JOptionPane.showMessageDialog(null, "Doctor doesn't exist");
         }
     }
 
