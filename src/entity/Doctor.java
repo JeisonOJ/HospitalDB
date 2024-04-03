@@ -5,6 +5,7 @@ public class Doctor {
     private String name;
     private String lastName;
     private int idSpecialty;
+    private Specialty specialty;
 
     public Doctor(){}
 
@@ -45,5 +46,13 @@ public class Doctor {
 
     public void setIdSpecialty(int idSpecialty) {
         this.idSpecialty = idSpecialty;
+    }
+
+    public Specialty getSpecialty() {
+        return specialty;
+    }
+
+    public void setSpecialty(Specialty specialty) {
+        this.specialty = specialty;
     }
 }

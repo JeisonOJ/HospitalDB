@@ -3,7 +3,7 @@ package model;
 import database.CRUD;
 import database.ConfigDB;
 import entity.Doctor;
-import entity.Patient;
+import entity.Specialty;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -17,7 +17,7 @@ public class DoctorModel implements CRUD {
     public Object insert(Object object) {
         Doctor doctor = (Doctor) object;
         Connection connection = ConfigDB.openConnection();
-        String sql = "INSERT INTO doctors(name,last_name,id_specialty) VALUES (?,?,?);";
+        String sql = "INSERT INTO doctors(nameDoctor,last_name_doctor,id_specialty) VALUES (?,?,?);";
         try {
             PreparedStatement ps = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
             ps.setString(1, doctor.getName());
@@ -45,7 +45,7 @@ public class DoctorModel implements CRUD {
         Doctor doctor = (Doctor) object;
         boolean isUpdated = false;
         Connection connection = ConfigDB.openConnection();
-        String sql = "UPDATE doctors SET name = ?,last_name = ?, id_specialty = ? WHERE id=?;";
+        String sql = "UPDATE doctors SET nameDoctor = ?,last_name_doctor = ?, id_specialty = ? WHERE id=?;";
 
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
@@ -100,7 +100,7 @@ public class DoctorModel implements CRUD {
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
-                doctors.add(new Doctor(rs.getInt("id"), rs.getString("name"),rs.getString("last_name"), rs.getInt("id_specialty")));
+                doctors.add(new Doctor(rs.getInt("id"), rs.getString("nameDoctor"),rs.getString("last_name_doctor"), rs.getInt("id_specialty")));
             }
 
         } catch (SQLException e) {
@@ -122,7 +122,30 @@ public class DoctorModel implements CRUD {
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
-                doctor = new Doctor(rs.getInt("id"), rs.getString("name"),rs.getString("last_name"), rs.getInt("id_specialty"));
+                doctor = new Doctor(rs.getInt("id"), rs.getString("nameDoctor"),rs.getString("last_name_doctor"), rs.getInt("id_specialty"));
+            }
+
+        } catch (SQLException e) {
+            System.out.println("FindById: error in database\n" + e.getMessage());
+        } finally {
+            ConfigDB.closeConnection();
+        }
+        return doctor;
+    }
+
+    public Object findByIdDetails(int id) {
+        Connection connection = ConfigDB.openConnection();
+        Doctor doctor = null;
+        String sql = "SELECT * FROM doctors INNER JOIN specialties WHERE doctors.id_specialty = specialties.id AND doctors.id = ?;";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                Specialty specialty = new Specialty(rs.getInt("id_specialty"),rs.getString("nameSpecialty"),rs.getString("description"));
+                doctor = new Doctor(rs.getInt("id"), rs.getString("nameDoctor"),rs.getString("last_name_doctor"), rs.getInt("id_specialty"));
+                doctor.setSpecialty(specialty);
             }
 
         } catch (SQLException e) {

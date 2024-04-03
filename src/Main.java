@@ -74,7 +74,8 @@ public class Main {
                             3. Update a doctor.
                             4. Delete a doctor.
                             5. Find a doctor.
-                            6. Exit.
+                            6. Find a doctor and show specialty;
+                            7. Exit.
                                             
                             ENTER THE OPTION TO CONTINUE...
                             """;
@@ -99,8 +100,11 @@ public class Main {
                             case "5":
                                 doctorController.findDoctorByID();
                                 break;
+                            case "6":
+                                doctorController.findDoctorByIDDetailed();
+                                break;
                         }
-                    } while (!optionDoctor.equals("6"));
+                    } while (!optionDoctor.equals("7"));
                     break;
                 case "3":
                     PatientController patientController = new PatientController();
@@ -150,7 +154,8 @@ public class Main {
                             3. Update an appointment.
                             4. Delete an appointment.
                             5. Find an appointment.
-                            6. Exit.
+                            6. Find an appointment and show patient and doctor.
+                            7. Exit.
                                             
                             ENTER THE OPTION TO CONTINUE...
                             """;
@@ -175,8 +180,11 @@ public class Main {
                             case "5":
                                 appointmentController.findAnAppointmentByID();
                                 break;
+                            case "6":
+                                appointmentController.findDoctorByIDDetailed();
+                                break;
                         }
-                    } while (!optionAppointment.equals("6"));
+                    } while (!optionAppointment.equals("7"));
                     break;
             }
 

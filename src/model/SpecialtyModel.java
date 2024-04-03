@@ -16,7 +16,7 @@ public class SpecialtyModel implements CRUD {
     public Object insert(Object object) {
         Specialty specialty = (Specialty) object;
         Connection connection = ConfigDB.openConnection();
-        String sql = "INSERT INTO specialties(name,description) VALUES (?,?);";
+        String sql = "INSERT INTO specialties(nameSpecialty,description) VALUES (?,?);";
         try {
             PreparedStatement ps = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
             ps.setString(1, specialty.getName());
@@ -43,7 +43,7 @@ public class SpecialtyModel implements CRUD {
         Specialty specialty = (Specialty) object;
         boolean isUpdated = false;
         Connection connection = ConfigDB.openConnection();
-        String sql = "UPDATE specialties SET name = ?,description = ? WHERE id = ?;";
+        String sql = "UPDATE specialties SET nameSpecialty = ?,description = ? WHERE id = ?;";
 
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
@@ -97,7 +97,7 @@ public class SpecialtyModel implements CRUD {
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
-                specialties.add(new Specialty(rs.getInt("id"), rs.getString("name"),rs.getString("description")));
+                specialties.add(new Specialty(rs.getInt("id"), rs.getString("nameSpecialty"),rs.getString("description")));
             }
 
         } catch (SQLException e) {
@@ -119,7 +119,7 @@ public class SpecialtyModel implements CRUD {
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
-                specialty = new Specialty(rs.getInt("id"), rs.getString("name"),rs.getString("description"));
+                specialty = new Specialty(rs.getInt("id"), rs.getString("nameSpecialty"),rs.getString("description"));
             }
 
         } catch (SQLException e) {

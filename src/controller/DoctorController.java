@@ -100,7 +100,7 @@ public class DoctorController {
 
     public void findDoctorByID() {
         StringBuilder message = new StringBuilder();
-        message.append("The doctor details");
+        message.append("The doctor");
         try {
             int found = Integer.parseInt(JOptionPane.showInputDialog(null, "\nEnter the id to find"));
             Doctor doctor = (Doctor) doctorModel.findById(found);
@@ -116,5 +116,28 @@ public class DoctorController {
             JOptionPane.showMessageDialog(null, "Doctor doesn't exist");
         }
     }
+
+    public void findDoctorByIDDetailed() {
+        StringBuilder message = new StringBuilder();
+        message.append("The doctor details");
+        try {
+            int found = Integer.parseInt(JOptionPane.showInputDialog(null, "\nEnter the id to find"));
+            Doctor doctor = (Doctor) doctorModel.findByIdDetails(found);
+            if (doctor != null){
+                message.append("\nID: ").append(doctor.getIdDoctor())
+                        .append("\nName: ").append(doctor.getName())
+                        .append("\nLast name: ").append(doctor.getLastName())
+                        .append("\nSpecialty id: ").append(doctor.getIdSpecialty())
+                        .append("\nSpecialty name: ").append(doctor.getSpecialty().getName())
+                        .append("\nSpecialty description: ").append(doctor.getSpecialty().getDescription());
+
+                JOptionPane.showMessageDialog(null,message.toString());
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Doctor doesn't exist");
+        }
+    }
+
+
 
 }

@@ -3,6 +3,8 @@ package model;
 import database.CRUD;
 import database.ConfigDB;
 import entity.Appointment;
+import entity.Doctor;
+import entity.Patient;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -124,6 +126,32 @@ public class AppointmentModel implements CRUD {
 
             while (rs.next()) {
                 appointment = new Appointment(rs.getInt("id"), rs.getString("date_appointment"), rs.getString("time_appointment"), rs.getString("reason"), rs.getInt("id_patient"), rs.getInt("id_doctor"));
+            }
+
+        } catch (SQLException e) {
+            System.out.println("FindById: error in database\n" + e.getMessage());
+        } finally {
+            ConfigDB.closeConnection();
+        }
+        return appointment;
+    }
+
+    public Object findByIdDetails(int id) {
+        Connection connection = ConfigDB.openConnection();
+        Appointment appointment = null;
+        String sql = "SELECT * FROM appointments INNER JOIN doctors ON appointments.id_doctor = doctors.id\n" +
+                "INNER JOIN patients ON appointments.id_patient = patients.id WHERE appointments.id = ?;";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                Patient patient = new Patient(rs.getInt("id_patient"),rs.getString("name"),rs.getString("last_name"),rs.getString("birth_date"),rs.getString("identity"));
+                Doctor doctor = new Doctor(rs.getInt("id_doctor"),rs.getString("nameDoctor"),rs.getString("last_name_doctor"),rs.getInt("id_specialty"));
+                appointment = new Appointment(rs.getInt("id"), rs.getString("date_appointment"), rs.getString("time_appointment"), rs.getString("reason"), rs.getInt("id_patient"), rs.getInt("id_doctor"));
+                appointment.setDoctor(doctor);
+                appointment.setPatient(patient);
             }
 
         } catch (SQLException e) {

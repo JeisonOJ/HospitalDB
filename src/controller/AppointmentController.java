@@ -125,5 +125,32 @@ public class AppointmentController {
             JOptionPane.showMessageDialog(null, "Appointment doesn't exist");
         }
     }
+    public void findDoctorByIDDetailed() {
+        StringBuilder message = new StringBuilder();
+        message.append("The Appointment details");
+        try {
+            int found = Integer.parseInt(JOptionPane.showInputDialog(null, "\nEnter the id to find"));
+            Appointment appointment = (Appointment) appointmentModel.findByIdDetails(found);
+            if (appointment != null){
+                message.append("\nID: ").append(appointment.getIdAppointment())
+                        .append("\nDate: ").append(appointment.getDateAppointment())
+                        .append("\nHour: ").append(appointment.getTimeAppointment())
+                        .append("\nReason: ").append(appointment.getReason())
+                        .append("\nPatient id: ").append(appointment.getPatient().getIdPatient())
+                        .append("\nPatient name: ").append(appointment.getPatient().getName())
+                        .append("\nPatient last name: ").append(appointment.getPatient().getLastName())
+                        .append("\nPatient birthdate: ").append(appointment.getPatient().getBirthDate())
+                        .append("\nPatient identity: ").append(appointment.getPatient().getIdentity())
+                        .append("\nDoctor id: ").append(appointment.getDoctor().getIdDoctor())
+                        .append("\nDoctor name: ").append(appointment.getDoctor().getName())
+                        .append("\nDoctor last name: ").append(appointment.getDoctor().getLastName())
+                        .append("\nDoctor specialty id: ").append(appointment.getDoctor().getIdSpecialty());
+
+                JOptionPane.showMessageDialog(null,message.toString());
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Appointment doesn't exist");
+        }
+    }
 
 }
