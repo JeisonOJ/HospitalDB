@@ -153,4 +153,25 @@ public class AppointmentController {
         }
     }
 
+    public void findAnAppointmentByDate() {
+        StringBuilder message = new StringBuilder();
+        message.append("The appointment details");
+        try {
+            String found = JOptionPane.showInputDialog(null, "\nEnter the date to find (YYYY-MM-DD)");
+            Appointment appointment = (Appointment) appointmentModel.findByDate(found);
+            if (appointment != null){
+                message.append("\nID: ").append(appointment.getIdAppointment())
+                        .append("\nDate: ").append(appointment.getDateAppointment())
+                        .append("\nHour: ").append(appointment.getTimeAppointment())
+                        .append("\nReason: ").append(appointment.getReason())
+                        .append("\nPatient: ").append(appointment.getIdPatient())
+                        .append("\nDoctor: ").append(appointment.getIdDoctor());
+
+                JOptionPane.showMessageDialog(null,message.toString());
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Appointment doesn't exist");
+        }
+    }
+
 }

@@ -161,4 +161,25 @@ public class AppointmentModel implements CRUD {
         }
         return appointment;
     }
+
+    public Object findByDate(String date) {
+        Connection connection = ConfigDB.openConnection();
+        Appointment appointment = null;
+        String sql = "SELECT * FROM appointments WHERE date_appointment = ?";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setString(1, date);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                appointment = new Appointment(rs.getInt("id"), rs.getString("date_appointment"), rs.getString("time_appointment"), rs.getString("reason"), rs.getInt("id_patient"), rs.getInt("id_doctor"));
+            }
+
+        } catch (SQLException e) {
+            System.out.println("FindById: error in database\n" + e.getMessage());
+        } finally {
+            ConfigDB.closeConnection();
+        }
+        return appointment;
+    }
 }

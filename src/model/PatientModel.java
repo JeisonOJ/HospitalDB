@@ -133,5 +133,25 @@ public class PatientModel implements CRUD {
         }
         return patient;
     }
+    public Object findByIdentity(String identity) {
+        Connection connection = ConfigDB.openConnection();
+        Patient patient = null;
+        String sql = "SELECT * FROM patients WHERE identity = ?";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setString(1, identity);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                patient = new Patient(rs.getInt("id"), rs.getString("name"),rs.getString("last_name"), rs.getString("birth_date"), rs.getString("identity"));
+            }
+
+        } catch (SQLException e) {
+            System.out.println("FindById: error in database\n" + e.getMessage());
+        } finally {
+            ConfigDB.closeConnection();
+        }
+        return patient;
+    }
 
 }

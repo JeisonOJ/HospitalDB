@@ -155,4 +155,29 @@ public class DoctorModel implements CRUD {
         }
         return doctor;
     }
+
+    public List<Object> showAllmedics(int id) {
+        Connection connection = ConfigDB.openConnection();
+        Doctor doctor = null;
+        List<Object> doctors = new ArrayList<>();
+        String sql = "select * from doctors inner join specialties on doctors.id_specialty = specialties.id where specialties.id = ?;";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                Specialty specialty = new Specialty(rs.getInt("id_specialty"),rs.getString("nameSpecialty"),rs.getString("description"));
+                doctor = new Doctor(rs.getInt("id"), rs.getString("nameDoctor"),rs.getString("last_name_doctor"), rs.getInt("id_specialty"));
+                doctor.setSpecialty(specialty);
+                doctors.add(doctor);
+            }
+
+        } catch (SQLException e) {
+            System.out.println("FindById: error in database\n" + e.getMessage());
+        } finally {
+            ConfigDB.closeConnection();
+        }
+        return doctors;
+    }
 }

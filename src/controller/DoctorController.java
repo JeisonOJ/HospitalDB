@@ -1,7 +1,6 @@
 package controller;
 
 import entity.Doctor;
-import entity.Patient;
 import model.DoctorModel;
 
 import javax.swing.*;
@@ -138,6 +137,29 @@ public class DoctorController {
         }
     }
 
+    public String showAllDoctorsBySpecialty() {
+        StringBuilder message = new StringBuilder();
+        message.append("......:::::::All Doctors by specialty:::::::......");
+        try{
+            int found = Integer.parseInt(JOptionPane.showInputDialog(null,"Enter specialty id to find"));
+            message.append("\nSpecialty id: ").append(found);
+            List<Object> list = doctorModel.showAllmedics(found);
+            if (!list.isEmpty()) {
+                for (Object object : list) {
+                    Doctor doctor = (Doctor) object;
+                    message.append("\nID: ").append(doctor.getIdDoctor())
+                            .append("\nName: ").append(doctor.getName())
+                            .append("\nLast name: ").append(doctor.getLastName())
+                            .append("\nSpecialty name: ").append(doctor.getSpecialty().getName());
+                }
+                return message.toString();
+            }
+        }catch (Exception e){
+            JOptionPane.showMessageDialog(null, "Enter a number");
 
+        }
+
+        return message.append("\nThere are no doctors in this list").toString();
+    }
 
 }

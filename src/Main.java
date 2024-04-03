@@ -75,7 +75,8 @@ public class Main {
                             4. Delete a doctor.
                             5. Find a doctor.
                             6. Find a doctor and show specialty;
-                            7. Exit.
+                            7. Find doctors by specialty;
+                            8. Exit.
                                             
                             ENTER THE OPTION TO CONTINUE...
                             """;
@@ -103,8 +104,11 @@ public class Main {
                             case "6":
                                 doctorController.findDoctorByIDDetailed();
                                 break;
+                            case "7":
+                                JOptionPane.showMessageDialog(null,doctorController.showAllDoctorsBySpecialty());
+                                break;
                         }
-                    } while (!optionDoctor.equals("7"));
+                    } while (!optionDoctor.equals("8"));
                     break;
                 case "3":
                     PatientController patientController = new PatientController();
@@ -116,7 +120,8 @@ public class Main {
                             3. Update a patient.
                             4. Delete a patient.
                             5. Find a patient.
-                            6. Exit.
+                            6. Find a patient by identity number.
+                            7. Exit.
                                             
                             ENTER THE OPTION TO CONTINUE...
                             """;
@@ -141,8 +146,11 @@ public class Main {
                             case "5":
                                 patientController.findPatientByID();
                                 break;
+                            case "6":
+                                patientController.findPatientByIdentity();
+                                break;
                         }
-                    } while (!optionPatient.equals("6"));
+                    } while (!optionPatient.equals("7"));
                     break;
                 case "4":
                     AppointmentController appointmentController = new AppointmentController();
@@ -155,7 +163,8 @@ public class Main {
                             4. Delete an appointment.
                             5. Find an appointment.
                             6. Find an appointment and show patient and doctor.
-                            7. Exit.
+                            7. Find an appointment by date.
+                            8. Exit.
                                             
                             ENTER THE OPTION TO CONTINUE...
                             """;
@@ -183,8 +192,11 @@ public class Main {
                             case "6":
                                 appointmentController.findDoctorByIDDetailed();
                                 break;
+                            case "7":
+                                appointmentController.findAnAppointmentByDate();
+                                break;
                         }
-                    } while (!optionAppointment.equals("7"));
+                    } while (!optionAppointment.equals("8"));
                     break;
             }
 

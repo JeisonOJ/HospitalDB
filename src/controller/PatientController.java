@@ -118,4 +118,24 @@ public class PatientController {
         }
     }
 
+    public void findPatientByIdentity() {
+        StringBuilder message = new StringBuilder();
+        message.append("The patient details");
+        try {
+            String found = JOptionPane.showInputDialog(null, "\nEnter the id to find");
+            Patient patient = (Patient) patientModel.findByIdentity(found);
+            if (patient != null){
+                message.append("\nID: ").append(patient.getIdPatient())
+                        .append("\nName: ").append(patient.getName())
+                        .append("\nLast name: ").append(patient.getLastName())
+                        .append("\nBirthDate: ").append(patient.getBirthDate())
+                        .append("\nIdentity: ").append(patient.getIdentity());
+
+                JOptionPane.showMessageDialog(null,message.toString());
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Patient doesn't exist");
+        }
+    }
+
 }
